@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.IO;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class HttpDownLoad2
@@ -49,7 +50,7 @@ public class HttpDownLoad2
                         fs.Write(buff, index, length);
                         index += length;
                         fileLength += length;
-
+                        Debug.Log(length + " " + fileLength);
                         if (fileLength == totalLength)
                         {
                             progress = 1f;

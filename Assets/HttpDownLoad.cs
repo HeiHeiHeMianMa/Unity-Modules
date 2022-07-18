@@ -23,7 +23,7 @@ public class HttpDownLoad : MonoBehaviour
     {
         Debug.Log(Application.persistentDataPath);
 
-        coroutine = StartCoroutine(BreakpointResume(MyURL, Application.persistentDataPath + "/MP4/HttpDownLoad333.zip"));
+        coroutine = StartCoroutine(BreakpointResume(MyURL, "D:/Temp/HttpDownLoad333.zip"));
 
     }
 

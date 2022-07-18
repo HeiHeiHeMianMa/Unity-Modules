@@ -4,9 +4,11 @@ using System.Collections;
 using System.IO;
 using System.Collections.Generic;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class DownloadHelper : MonoBehaviour
 {
+    public Text text;
     public delegate void DelegateDownloadFinish(bool bSuccess);
 
     public long AlreadyDownloadSize
@@ -53,14 +55,11 @@ public class DownloadHelper : MonoBehaviour
     private Dictionary<string, string> rangeHttpHead; //断点续传的Head缓存
     private const int ChunkSize = 10 * 1024 * 1024;  //断点续传时,每次请求字节数
 
-    IEnumerator Start()
+    void Start()
     {
         var url = "https://game-swyl.wyx.cn/ntxs/release2/res/ResRoot/ResData/gengxin3/model/gengxin3_model0.zip";
-        UnityWebRequest headRequest = UnityWebRequest.Head(url);
-        yield return headRequest.SendWebRequest();
-        ulong totalLength = ulong.Parse(headRequest.GetResponseHeader("Content-Length"));
 
-        var _dataFileDownloader = DownloadHelper.StartDownloadRange(this, "", true, Application.persistentDataPath + "/MP4/gengxin3_model0.info", (bSucess) =>
+        var _dataFileDownloader = DownloadHelper.StartDownloadRange(this, url, true, Application.persistentDataPath + "/MP4/gengxin3_model0.info", (bSucess) =>
         {
             Debug.LogError(bSucess);
         });
@@ -278,28 +277,23 @@ public class DownloadHelper : MonoBehaviour
             //检查路径
             CheckTargetPath(writePath);
 
-            _curTempFileSize = info.Size;
+            UnityWebRequest headRequest = UnityWebRequest.Head(info.Url);
+            yield return headRequest.SendWebRequest();
+            info.Size = long.Parse(headRequest.GetResponseHeader("Content-Length"));
+            Debug.Log("获取大小" + info.Size);
 
-            //写入文件
-            using (rangeFS = new FileStream(writePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.ReadWrite))
+            var request = UnityWebRequest.Get(info.Url);
+            request.downloadHandler = new DownloadHandlerFile(writePath, true);
+            var fileLength = new FileInfo(writePath).Length;
+            request.SetRequestHeader("Range", $"bytes={fileLength}-");
+
+            if (fileLength < info.Size)
             {
-                //记录文件Length
-                var fileLength = rangeFS.Length;
-
-                //if (info.Size / 1024 /1024 > 50){Debug.LogError("大文件开始下载 " + writePath);}
-
-                //分段写入
-                while (fileLength < info.Size)
+                request.SendWebRequest();
+                while (!request.isDone)
                 {
-                    //移动下标
-                    rangeFS.Seek(fileLength, SeekOrigin.Begin);
-
-                    //设置目标文件流段
-                    if (rangeHttpHead == null) rangeHttpHead = new Dictionary<string, string>(1);
-                    rangeHttpHead["Range"] = $"bytes={fileLength}-{fileLength + ChunkSize}";
-
-                    //开始请求
-                    yield return GetWWW(info.Url, value => _curTempWWW = value, false, rangeHttpHead);
+                    double progress = (request.downloadedBytes + (ulong)fileLength) / (double)info.Size;
+                    Debug.Log((progress * 100 + 0.01f).ToString("f2") + "%");
 
                     //检查状态
                     if (_isStop)
@@ -308,7 +302,13 @@ public class DownloadHelper : MonoBehaviour
                         yield break;
                     }
 
-                    if (!string.IsNullOrEmpty(_curTempWWW.error))
+                    Debug.Log(request.downloadedBytes);
+
+                    yield return null;
+
+                    Debug.Log(request.downloadedBytes);
+
+                    if (!string.IsNullOrEmpty(request.error))
                     {
                         //Error处理
                         Debug.LogError($"download file fail:{info.Url}  \nerror:{_curTempWWW.error}");
@@ -319,39 +319,19 @@ public class DownloadHelper : MonoBehaviour
                         if (_curDelFun != null) _curDelFun(false);
                         yield break;
                     }
-                    else
-                    {
-                        try
-                        {
-                            var buff = _curTempWWW.bytes;
-                            if (buff != null)
-                            {
-                                //写入字节
-                                rangeFS.Write(buff, 0, buff.Length);
-                                fileLength += buff.Length;
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Debug.LogError("download file error:" + ex.ToString());
-                            if (_curDelFun != null) _curDelFun(false);
-                            _isStop = true;
-                        }
-
-                        _curTempWWW.Dispose();
-                        _curTempWWW = null;
-                    }
                 }
-
-                _alreadyDownloadSize += _curTempFileSize;
+                request.Dispose();
             }
-        }
 
-        StopFS();
+            Debug.Log("下载成功");
 
-        if (_curDelFun != null)
-        {
-            _curDelFun(!_isStop);
+            _curTempFileSize = info.Size;
+            _alreadyDownloadSize += _curTempFileSize;
+
+            if (_curDelFun != null)
+            {
+                _curDelFun(!_isStop);
+            }
         }
     }
 

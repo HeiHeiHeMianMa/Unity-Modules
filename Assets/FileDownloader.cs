@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class FileDownloader : MonoBehaviour
 {
     public Text text;
-    private string MyURL = "http://education.jnaw.top/lubozhibouploaded/quanjing/1615791915263.mp4";
+    private string MyURL = "https://game-swyl.wyx.cn/ntxs/release2/res/ResRoot/ResData/gengxin3/model/gengxin3_model0.zip";
 
     UnityWebRequest request;
     Coroutine coroutine;
@@ -18,7 +18,7 @@ public class FileDownloader : MonoBehaviour
     {
         Debug.Log(Application.persistentDataPath);
 
-        coroutine = StartCoroutine(BreakpointResume(MyURL, Application.persistentDataPath + "/MP4/1615791915263.mp4"));
+        coroutine = StartCoroutine(BreakpointResume(MyURL, Application.persistentDataPath + "/MP4/gengxin3_model0.zip"));
 
     }
     private void OnDestroy()
@@ -73,26 +73,29 @@ public class FileDownloader : MonoBehaviour
                 text.text = (progress * 100 + 0.01f).ToString("f2") + "%";
                 // Debug.Log("下载量" + Request.downloadedBytes);
                 //超过一定的字节关闭现在的协程，开启新的协程，将资源分段下载
-                if (request.downloadedBytes >= loadedBytes)
-                {
-                    StopCoroutine(coroutine);
+
+                yield return null;
+
+                //if (request.downloadedBytes >= loadedBytes)
+                //{
+                    //StopCoroutine(coroutine);
 
                     //如果 UnityWebRequest 在进行中，就停止。
-                    request.Abort();
+                    //request.Abort();
                     if (!string.IsNullOrEmpty(request.error))
                     {
                         Debug.LogError("下载失败" + request.error);
                     }
 
-                    request.Dispose();
-                    yield return null;
+                    //request.Dispose();
+                    //yield return null;
                     
 
-                    yield return StartCoroutine(BreakpointResume(loadPath, savePath));
-                }
+                    //yield return StartCoroutine(BreakpointResume(loadPath, savePath));
+                //}
 
 
-                yield return null;
+                //yield return null;
             }
         }
         if (string.IsNullOrEmpty(request.error))

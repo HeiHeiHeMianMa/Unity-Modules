@@ -33,8 +33,8 @@ public class TestDownload : MonoBehaviour
 
     private void StartDownload()
     {
-        var path = EditorUtility.OpenFolderPanel("选择下载文件夹", string.Empty, string.Empty);
-        var filePath = $"{path}/{fileName}";
+        //var path = EditorUtility.OpenFolderPanel("选择下载文件夹", string.Empty, string.Empty);
+        var filePath = $"{Application.dataPath}/{fileName}";
         Debug.Log("下载 路径：" + filePath);
         StartCoroutine(httpDownLoad.Start(url, filePath));
     }
