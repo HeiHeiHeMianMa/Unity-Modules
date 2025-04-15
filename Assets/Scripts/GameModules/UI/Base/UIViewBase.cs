@@ -70,7 +70,7 @@ namespace GameModules.UI
         /// </summary>
         public virtual void OnCancel()
         {
-            Module.UI.Close(controller.uiType);
+            GameModule.UI.Close(controller.uiType);
         }
 
         /// <summary>

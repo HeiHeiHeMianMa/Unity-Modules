@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GameModules
 {
-    public static class Module
+    public static class GameModule
     {
         public static UIModule UI { get; private set; }
         

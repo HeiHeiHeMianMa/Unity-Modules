@@ -9,8 +9,8 @@ public class Launcher : MonoBehaviour
 {
     void Start()
     {
-        Module.Init();
+        GameModule.Init();
         
-        Module.UI.Open(UIType.UIMain);
+        GameModule.UI.Open(UIType.UIMain);
     }
 }

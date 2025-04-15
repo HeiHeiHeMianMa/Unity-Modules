@@ -31,9 +31,9 @@ namespace GameModules.UI
         private void InitAdapter()
         {
             var safeArea = Screen.safeArea;
-            if (Module.UI != null)
+            if (GameModule.UI != null)
             {
-                safeArea = Module.UI.GetSafeArea();
+                safeArea = GameModule.UI.GetSafeArea();
             }
             var orientation = Screen.orientation;
             RectTransform rectTransform = transform as RectTransform;

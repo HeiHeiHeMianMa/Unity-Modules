@@ -15,7 +15,7 @@ namespace GameModules.UI
 
             ButtonClose_btn.AddClick(() =>
             {
-                Module.UI.Close(Controller.uiType);
+                GameModule.UI.Close(Controller.uiType);
             });
         }
 

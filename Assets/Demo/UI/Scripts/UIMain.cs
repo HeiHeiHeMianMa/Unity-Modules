@@ -17,14 +17,14 @@ namespace GameModules.UI
 
             ButtonStart_btn.AddClick(() =>
             {
-                Module.UI.Open(UIType.UIMessageWindow, PublicPool<MessageBoxData>.Get().Set("提示", "弹窗。", () =>
+                GameModule.UI.Open(UIType.UIMessageWindow, PublicPool<MessageBoxData>.Get().Set("提示", "弹窗。", () =>
                 {
                     Debug.Log("确认");
                 }));
             });
             ButtonSetting_btn.AddClick(() =>
             {
-                Module.UI.Open(UIType.UITestB);
+                GameModule.UI.Open(UIType.UITestB);
             });
         }
 
