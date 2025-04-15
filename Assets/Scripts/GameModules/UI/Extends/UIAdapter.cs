@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using GameModules;
 using UnityEngine;
 
-namespace GameModule.UI
+namespace GameModules.UI
 {
     public enum UIAdaptType
     {

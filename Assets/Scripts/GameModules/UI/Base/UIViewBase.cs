@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using GameModules;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 
-namespace GameModule.UI
+namespace GameModules.UI
 {
     public class UIViewBase : MonoBehaviour
     {

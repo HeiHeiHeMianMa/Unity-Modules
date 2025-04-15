@@ -1,4 +1,5 @@
-using GameModule;
+using GameModules;
+using GameModules.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +11,6 @@ public class Launcher : MonoBehaviour
     {
         Module.Init();
         
-        Module.UI.Open(GameModule.UI.UIType.UIMain);
+        Module.UI.Open(UIType.UIMain);
     }
 }

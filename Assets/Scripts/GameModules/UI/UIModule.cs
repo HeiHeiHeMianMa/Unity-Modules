@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
-using GameModule.Pool;
+using GameModules.Pool;
 
-namespace GameModule.UI
+namespace GameModules.UI
 {
     public class UIModule
     {

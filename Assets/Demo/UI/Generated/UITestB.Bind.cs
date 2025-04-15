@@ -4,7 +4,7 @@ using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace GameModule.UI
+namespace GameModules.UI
 {
     public partial class UITestB : UIViewBase
     {   

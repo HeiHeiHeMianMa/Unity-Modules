@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace GameModule.GameEvent
+namespace GameModules.GameEvent
 {
     public static class GameEvent
     {

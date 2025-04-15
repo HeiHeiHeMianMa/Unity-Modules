@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using GameModule.GameEvent;
+using GameModules.GameEvent;
 using UnityEngine;
 
 public class GameEvent_Test : MonoBehaviour

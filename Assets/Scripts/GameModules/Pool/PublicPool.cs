@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace GameModule.Pool
+namespace GameModules.Pool
 {
     /// <summary>
     /// 公共对象池

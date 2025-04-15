@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GameModule.UI
+namespace GameModules.UI
 {
 
     public enum UIType

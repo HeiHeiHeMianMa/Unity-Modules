@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using GameModule.UI;
+using GameModules.UI;
 using UnityEngine;
 
-namespace GameModule
+namespace GameModules
 {
     public static class Module
     {

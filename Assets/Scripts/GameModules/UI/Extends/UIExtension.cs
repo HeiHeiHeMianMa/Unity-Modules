@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace GameModule.UI
+namespace GameModules.UI
 {
 
     public enum AnchorPresets

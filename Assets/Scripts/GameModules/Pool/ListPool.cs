@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GameModule.Pool
+namespace GameModules.Pool
 {
-    public class DictionaryPool<Key, Value> : PoolBase
+    public class ListPool<T> : PoolBase
     {
-        private static DictionaryPool<Key, Value> Instance;
+        private static ListPool<T> Instance;
 
-        private Stack<Dictionary<Key, Value>> pool;
+        private Stack<List<T>> pool;
 
-        private DictionaryPool()
+        private ListPool()
         {
         }
 
@@ -18,13 +18,13 @@ namespace GameModule.Pool
         {
             if (Instance == null)
             {
-                Instance = new DictionaryPool<Key, Value>();
-                Instance.pool = new Stack<Dictionary<Key, Value>>();
+                Instance = new ListPool<T>();
+                Instance.pool = new Stack<List<T>>();
                 PublicPoolMgr.AllPool.Add(Instance);
             }
         }
 
-        public static Dictionary<Key, Value> Get()
+        public static List<T> Get()
         {
             Init();
 
@@ -34,15 +34,15 @@ namespace GameModule.Pool
             }
             else
             {
-                return new Dictionary<Key, Value>();
+                return new List<T>();
             }
         }
 
-        public static void Release(Dictionary<Key, Value> dict)
+        public static void Release(List<T> list)
         {
-            if (dict == null || Instance == null) return;
-            dict.Clear();
-            Instance.pool.Push(dict);
+            if (list == null || Instance == null) return;
+            list.Clear();
+            Instance.pool.Push(list);
         }
 
         public void Dispose()

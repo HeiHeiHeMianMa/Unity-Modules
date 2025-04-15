@@ -1,5 +1,5 @@
 
-namespace GameModule.GameEvent
+namespace GameModules.GameEvent
 {
     public enum GameEventID
     {

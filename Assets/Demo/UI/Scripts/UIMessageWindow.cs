@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using GameModules;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
-using GameModule.Pool;
+using GameModules.Pool;
 
-namespace GameModule.UI
+namespace GameModules.UI
 {
     public enum MessageBoxType
     {
