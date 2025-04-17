@@ -16,14 +16,14 @@ namespace GameModules
 
             ButtonStart_btn.AddClick(() =>
             {
-                GameModule.UI.Open(UIType.UIMessageWindow, PublicPool<MessageBoxData>.Get().Set("提示", "弹窗。", () =>
+                UIModule.Instance.Open(UIType.UIMessageWindow, PublicPool<MessageBoxData>.Get().Set("提示", "弹窗。", () =>
                 {
                     Debug.Log("确认");
                 }));
             });
             ButtonSetting_btn.AddClick(() =>
             {
-                GameModule.UI.Open(UIType.UITestB);
+                UIModule.Instance.Open(UIType.UITestB);
             });
         }
 

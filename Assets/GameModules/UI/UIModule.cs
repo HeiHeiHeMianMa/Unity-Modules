@@ -7,7 +7,7 @@ using GameModules;
 
 namespace GameModules
 {
-    public class UIModule
+    public class UIModule : SingletonMono<UIModule>
     {
         public static int Width = 1080;
         public static int Height = 1920;

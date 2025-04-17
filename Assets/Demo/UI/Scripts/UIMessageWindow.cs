@@ -64,17 +64,17 @@ namespace GameModules
             ButtonCloses_btn.AddClick(() =>
             {
                 data.cancel?.Invoke();
-                GameModule.UI.Close(Controller.uiType);
+                UIModule.Instance.Close(Controller.uiType);
             });
             bg_btn.AddClick(() =>
             {
                 data.cancel?.Invoke();
-                GameModule.UI.Close(Controller.uiType);
+                UIModule.Instance.Close(Controller.uiType);
             });
             ButtonConfirm_btn.AddClick(() =>
             {
                 data.confirm?.Invoke();
-                GameModule.UI.Close(Controller.uiType);
+                UIModule.Instance.Close(Controller.uiType);
             });
         }
 
