@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using GameModules.Pool;
+using GameModules;
 
-namespace GameModules.UI
+namespace GameModules
 {
     public enum UILayer
     {

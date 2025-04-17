@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GameModules.Notification
+namespace GameModules
 {
     public partial class Notification
     {

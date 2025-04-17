@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 
-namespace GameModules.UI
+namespace GameModules
 {
     public class UIViewBase : MonoBehaviour
     {

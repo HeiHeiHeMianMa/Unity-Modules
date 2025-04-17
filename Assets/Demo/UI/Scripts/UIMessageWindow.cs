@@ -4,9 +4,8 @@ using GameModules;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
-using GameModules.Pool;
 
-namespace GameModules.UI
+namespace GameModules
 {
     public enum MessageBoxType
     {

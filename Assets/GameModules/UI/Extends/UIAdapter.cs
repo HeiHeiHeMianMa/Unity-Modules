@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using GameModules;
 using UnityEngine;
 
-namespace GameModules.UI
+namespace GameModules
 {
     public enum UIAdaptType
     {

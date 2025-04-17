@@ -1,4 +1,4 @@
-﻿namespace GameModules.Notification
+﻿namespace GameModules
 {
     public interface IUINoticeable
     {

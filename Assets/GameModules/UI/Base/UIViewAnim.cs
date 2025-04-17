@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GameModules.UI
+namespace GameModules
 {
     public enum UIAppearType
     {

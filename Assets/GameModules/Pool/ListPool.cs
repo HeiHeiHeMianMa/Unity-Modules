@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GameModules.Pool
+namespace GameModules
 {
     public class ListPool<T> : PoolBase
     {

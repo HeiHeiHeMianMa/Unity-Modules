@@ -5,9 +5,8 @@ using UnityEngine;
 using TMPro;
 using System.Collections;
 using GameModules;
-using GameModules.Pool;
 
-namespace GameModules.UI
+namespace GameModules
 {
     public partial class UIMain : UIViewBase
     {

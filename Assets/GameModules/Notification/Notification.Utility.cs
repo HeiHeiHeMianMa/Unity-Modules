@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 
 
-namespace GameModules.Notification
+namespace GameModules
 {
     public partial class Notification
     {

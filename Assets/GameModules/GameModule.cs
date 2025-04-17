@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using GameModules.UI;
+using GameModules;
 using UnityEngine;
 
 namespace GameModules

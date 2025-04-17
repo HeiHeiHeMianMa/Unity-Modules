@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace GameModules.Pool
+namespace GameModules
 {
     public class ObjectPool<T> : PoolBase where T : new()
     {

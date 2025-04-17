@@ -4,7 +4,7 @@ using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace GameModules.UI
+namespace GameModules
 {
     public partial class UIMessageWindow : UIViewBase
     {   

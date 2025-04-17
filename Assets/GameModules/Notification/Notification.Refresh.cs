@@ -3,7 +3,7 @@ using System.Diagnostics;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-namespace GameModules.Notification
+namespace GameModules
 {
     public partial class Notification
     {

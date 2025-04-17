@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
 
-namespace GameModules.UI
+namespace GameModules
 {
     public partial class UITestB : UIViewBase
     {
