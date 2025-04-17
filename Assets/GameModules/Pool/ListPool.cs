@@ -6,9 +6,9 @@ namespace GameModules
 {
     public class ListPool<T> : PoolBase
     {
-        private static ListPool<T> Instance;
+        private static ListPool<T> _instance;
 
-        private Stack<List<T>> pool;
+        private Stack<List<T>> _pool;
 
         private ListPool()
         {
@@ -16,11 +16,11 @@ namespace GameModules
 
         private static void Init()
         {
-            if (Instance == null)
+            if (_instance == null)
             {
-                Instance = new ListPool<T>();
-                Instance.pool = new Stack<List<T>>();
-                PublicPoolMgr.AllPool.Add(Instance);
+                _instance = new ListPool<T>();
+                _instance._pool = new Stack<List<T>>();
+                PublicPoolMgr.AllPool.Add(_instance);
             }
         }
 
@@ -28,9 +28,9 @@ namespace GameModules
         {
             Init();
 
-            if (Instance.pool.Count > 0)
+            if (_instance._pool.Count > 0)
             {
-                return Instance.pool.Pop();
+                return _instance._pool.Pop();
             }
             else
             {
@@ -40,22 +40,22 @@ namespace GameModules
 
         public static void Release(List<T> list)
         {
-            if (list == null || Instance == null) return;
+            if (list == null || _instance == null) return;
             list.Clear();
-            Instance.pool.Push(list);
+            _instance._pool.Push(list);
         }
 
         public void Dispose()
         {
-            if (Instance != null)
+            if (_instance != null)
             {
-                if (Instance.pool != null)
+                if (_instance._pool != null)
                 {
-                    Instance.pool.Clear();
-                    Instance.pool = null;
+                    _instance._pool.Clear();
+                    _instance._pool = null;
                 }
 
-                Instance = null;
+                _instance = null;
             }
         }
     }

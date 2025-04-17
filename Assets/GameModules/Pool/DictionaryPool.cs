@@ -6,9 +6,9 @@ namespace GameModules
 {
     public class DictionaryPool<Key, Value> : PoolBase
     {
-        private static DictionaryPool<Key, Value> Instance;
+        private static DictionaryPool<Key, Value> _instance;
 
-        private Stack<Dictionary<Key, Value>> pool;
+        private Stack<Dictionary<Key, Value>> _pool;
 
         private DictionaryPool()
         {
@@ -16,11 +16,11 @@ namespace GameModules
 
         private static void Init()
         {
-            if (Instance == null)
+            if (_instance == null)
             {
-                Instance = new DictionaryPool<Key, Value>();
-                Instance.pool = new Stack<Dictionary<Key, Value>>();
-                PublicPoolMgr.AllPool.Add(Instance);
+                _instance = new DictionaryPool<Key, Value>();
+                _instance._pool = new Stack<Dictionary<Key, Value>>();
+                PublicPoolMgr.AllPool.Add(_instance);
             }
         }
 
@@ -28,9 +28,9 @@ namespace GameModules
         {
             Init();
 
-            if (Instance.pool.Count > 0)
+            if (_instance._pool.Count > 0)
             {
-                return Instance.pool.Pop();
+                return _instance._pool.Pop();
             }
             else
             {
@@ -40,22 +40,22 @@ namespace GameModules
 
         public static void Release(Dictionary<Key, Value> dict)
         {
-            if (dict == null || Instance == null) return;
+            if (dict == null || _instance == null) return;
             dict.Clear();
-            Instance.pool.Push(dict);
+            _instance._pool.Push(dict);
         }
 
         public void Dispose()
         {
-            if (Instance != null)
+            if (_instance != null)
             {
-                if (Instance.pool != null)
+                if (_instance._pool != null)
                 {
-                    Instance.pool.Clear();
-                    Instance.pool = null;
+                    _instance._pool.Clear();
+                    _instance._pool = null;
                 }
 
-                Instance = null;
+                _instance = null;
             }
         }
     }

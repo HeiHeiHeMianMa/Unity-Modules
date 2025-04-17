@@ -7,13 +7,13 @@ namespace GameModules
 {
     public partial class Notification
     {
-        private bool needRefresh = false;
-        private Func<bool> checkNotify;
+        private bool _needRefresh = false;
+        private Func<bool> _checkNotify;
 
-        private static Stopwatch watch = new Stopwatch();
-        public static long maxTimeSlice = 10;
+        private static Stopwatch _watch = new Stopwatch();
+        private static long _maxTimeSlice = 10;
         private static Type _lastRefresh = Type.None;
-        public static bool IsBusy => watch.ElapsedMilliseconds >= maxTimeSlice;
+        public static bool IsBusy => _watch.ElapsedMilliseconds >= _maxTimeSlice;
 
         /// <summary>
         /// 设置需要刷新，下一帧统一刷新
@@ -31,7 +31,7 @@ namespace GameModules
                 return;
             }
 
-            cNotification.needRefresh = true;
+            cNotification._needRefresh = true;
         }
 
         /// <summary>
@@ -43,14 +43,14 @@ namespace GameModules
         {
             if (!Container.TryGetValue(eType, out var cNotification))
                 return false;
-            if (cNotification?.checkNotify == null)
+            if (cNotification?._checkNotify == null)
                 return false;
-            if (cNotification.needRefresh == false)
+            if (cNotification._needRefresh == false)
                 return false;
 
-            cNotification.needRefresh = false;
+            cNotification._needRefresh = false;
 
-            int nNotifyCount = cNotification.checkNotify() ? 1 : 0;
+            int nNotifyCount = cNotification._checkNotify() ? 1 : 0;
             cNotification.Count = nNotifyCount;
 
             return true;
@@ -58,8 +58,8 @@ namespace GameModules
 
         public static void Update()
         {
-            watch.Reset();
-            watch.Start();
+            _watch.Reset();
+            _watch.Start();
             
             var t = _lastRefresh + 1;
             if (t >= Type.MAX)

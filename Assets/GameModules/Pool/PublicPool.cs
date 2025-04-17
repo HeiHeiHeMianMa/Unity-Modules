@@ -9,39 +9,39 @@ namespace GameModules
     /// </summary>
     public static class PublicPool<T> where T : new()
     {
-        private static ObjectPool<T> instancePool;
+        private static ObjectPool<T> _instancePool;
 
         private static void Init()
         {
-            if (instancePool == null)
+            if (_instancePool == null)
             {
-                instancePool = new ObjectPool<T>();
-                PublicPoolMgr.AllPool.Add(instancePool);
+                _instancePool = new ObjectPool<T>();
+                PublicPoolMgr.AllPool.Add(_instancePool);
             }
         }
 
         public static T Get()
         {
             Init();
-            return instancePool.Get();
+            return _instancePool.Get();
         }
 
         public static void Release(T obj)
         {
-            if (obj == null || instancePool == null) return;
+            if (obj == null || _instancePool == null) return;
 
             if (obj is IObject interfac)
             {
                 interfac.OnRelease();
             }
 
-            instancePool.Release(obj);
+            _instancePool.Release(obj);
         }
 
         public static void Dispose()
         {
-            instancePool?.Dispose();
-            instancePool = null;
+            _instancePool?.Dispose();
+            _instancePool = null;
         }
     }
     

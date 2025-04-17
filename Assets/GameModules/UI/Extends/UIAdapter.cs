@@ -16,15 +16,15 @@ namespace GameModules
     {
         public UIAdaptType uIAdaptType = UIAdaptType.All;
 
-        private float cd;
+        private float _cd;
 
         private void Update()
         {
             // 为避免旋转屏幕，华为分屏机等导致分辨率变化，且安全区变化的问题，需要持续检测
-            if (Time.time > cd)
+            if (Time.time > _cd)
             {
                 InitAdapter();
-                cd = Time.time + 1;
+                _cd = Time.time + 1;
             }
         }
 

@@ -25,8 +25,8 @@ namespace GameModules
 
         public float playRate;
         private float duration;
-        private Action callback;
-        private CanvasGroup canvasGroup;
+        private Action _callback;
+        private CanvasGroup _canvasGroup;
         private Transform Target => target != null ? target : transform;
         private enum ViewType
         {
@@ -38,7 +38,7 @@ namespace GameModules
 
         private void Start()
         {
-            canvasGroup = gameObject.GetOrAddComponent<CanvasGroup>();
+            _canvasGroup = gameObject.GetOrAddComponent<CanvasGroup>();
             playRate = 0;
         }
 
@@ -47,7 +47,7 @@ namespace GameModules
             playRate = 0;
             if (viewType == ViewType.Close)
             {
-                this.callback?.Invoke();
+                this._callback?.Invoke();
             }
             if (!gameObject.activeSelf)
             {
@@ -55,7 +55,7 @@ namespace GameModules
                 return;
             }
             viewType = ViewType.Open;
-            this.callback = callback;
+            this._callback = callback;
             duration = (1 - playRate) * animTime;
 
             if (openType == UIAppearType.Animation || openType == UIAppearType.AlphaAndAnimation)
@@ -83,7 +83,7 @@ namespace GameModules
         {
             if (viewType == ViewType.Open)
             {
-                this.callback?.Invoke();
+                this._callback?.Invoke();
             }
             if (!gameObject.activeSelf)
             {
@@ -92,7 +92,7 @@ namespace GameModules
             }
 
             viewType = ViewType.Close;
-            this.callback = callback;
+            this._callback = callback;
             duration = playRate * animTime;
 
             if (closeType == UIAppearType.Animation || closeType == UIAppearType.AlphaAndAnimation)
@@ -150,7 +150,7 @@ namespace GameModules
 
             if (type == UIAppearType.Alpha || type == UIAppearType.AlphaAndAnimation || type == UIAppearType.ScaleAndAlpha)
             {
-                canvasGroup.alpha = Mathf.Lerp(0, 1, playRate);
+                _canvasGroup.alpha = Mathf.Lerp(0, 1, playRate);
             }
             if (type == UIAppearType.Scale || type == UIAppearType.ScaleAndAlpha)
             {
@@ -159,8 +159,8 @@ namespace GameModules
         }
         private void Finish()
         {
-            callback?.Invoke();
-            callback = null;
+            _callback?.Invoke();
+            _callback = null;
             viewType = ViewType.None;
         }
     }

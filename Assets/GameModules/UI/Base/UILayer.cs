@@ -20,16 +20,16 @@ namespace GameModules
     {
         public UILayer layer;
         public Canvas canvas;
-        private int maxOrder;
-        private HashSet<int> orders;
+        private int _maxOrder;
+        private HashSet<int> _orders;
         public Stack<UIViewController> openedViews;
 
         public UILayerLogic(UILayer layer, Canvas canvas)
         {
             this.layer = layer;
             this.canvas = canvas;
-            maxOrder = (int)layer;
-            orders = new HashSet<int>();
+            _maxOrder = (int)layer;
+            _orders = new HashSet<int>();
             openedViews = new Stack<UIViewController>();
         }
 
@@ -98,13 +98,13 @@ namespace GameModules
         public void PushOrder(UIViewController closedUI)
         {
             int order = closedUI.order;
-            if (orders.Remove(order))
+            if (_orders.Remove(order))
             {
                 // 重新计算最大值
-                maxOrder = (int)layer;
-                foreach (var item in orders)
+                _maxOrder = (int)layer;
+                foreach (var item in _orders)
                 {
-                    maxOrder = Mathf.Max(maxOrder, item);
+                    _maxOrder = Mathf.Max(_maxOrder, item);
                 }
 
                 // 移除界面
@@ -131,10 +131,10 @@ namespace GameModules
 
         public int PopOrder(UIViewController uIViewController)
         {
-            maxOrder += 10;
-            orders.Add(maxOrder);
+            _maxOrder += 10;
+            _orders.Add(_maxOrder);
             openedViews.Push(uIViewController);
-            return maxOrder;
+            return _maxOrder;
         }
     }
 

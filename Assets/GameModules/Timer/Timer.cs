@@ -20,9 +20,9 @@ namespace GameModules
             public object[] Args = null; //回调参数
         }
 
-        private int curTimerId = 0;
-        private readonly List<TimerInfo> timerList = new List<TimerInfo>();
-        private readonly List<TimerInfo> unscaledTimerList = new List<TimerInfo>();
+        private int _curTimerId = 0;
+        private readonly List<TimerInfo> _timerList = new List<TimerInfo>();
+        private readonly List<TimerInfo> _unscaledTimerList = new List<TimerInfo>();
 
         /// <summary>
         /// 添加计时器。
@@ -37,7 +37,7 @@ namespace GameModules
         {
             TimerInfo timerInfo = new TimerInfo
             {
-                timerId = ++curTimerId,
+                timerId = ++_curTimerId,
                 leftTime = time,
                 time = time,
                 Handler = callback,
@@ -56,11 +56,11 @@ namespace GameModules
             bool isInsert = false;
             if (timerInfo.isUnscaled)
             {
-                for (int i = 0, len = unscaledTimerList.Count; i < len; i++)
+                for (int i = 0, len = _unscaledTimerList.Count; i < len; i++)
                 {
-                    if (unscaledTimerList[i].leftTime > timerInfo.leftTime)
+                    if (_unscaledTimerList[i].leftTime > timerInfo.leftTime)
                     {
-                        unscaledTimerList.Insert(i, timerInfo);
+                        _unscaledTimerList.Insert(i, timerInfo);
                         isInsert = true;
                         break;
                     }
@@ -68,16 +68,16 @@ namespace GameModules
 
                 if (!isInsert)
                 {
-                    unscaledTimerList.Add(timerInfo);
+                    _unscaledTimerList.Add(timerInfo);
                 }
             }
             else
             {
-                for (int i = 0, len = timerList.Count; i < len; i++)
+                for (int i = 0, len = _timerList.Count; i < len; i++)
                 {
-                    if (timerList[i].leftTime > timerInfo.leftTime)
+                    if (_timerList[i].leftTime > timerInfo.leftTime)
                     {
-                        timerList.Insert(i, timerInfo);
+                        _timerList.Insert(i, timerInfo);
                         isInsert = true;
                         break;
                     }
@@ -85,7 +85,7 @@ namespace GameModules
 
                 if (!isInsert)
                 {
-                    timerList.Add(timerInfo);
+                    _timerList.Add(timerInfo);
                 }
             }
         }
@@ -199,20 +199,20 @@ namespace GameModules
         /// <param name="timerId"></param>
         private void RemoveTimer(int timerId)
         {
-            for (int i = 0, len = timerList.Count; i < len; i++)
+            for (int i = 0, len = _timerList.Count; i < len; i++)
             {
-                if (timerList[i].timerId == timerId)
+                if (_timerList[i].timerId == timerId)
                 {
-                    timerList.RemoveAt(i);
+                    _timerList.RemoveAt(i);
                     return;
                 }
             }
 
-            for (int i = 0, len = unscaledTimerList.Count; i < len; i++)
+            for (int i = 0, len = _unscaledTimerList.Count; i < len; i++)
             {
-                if (unscaledTimerList[i].timerId == timerId)
+                if (_unscaledTimerList[i].timerId == timerId)
                 {
-                    unscaledTimerList.RemoveAt(i);
+                    _unscaledTimerList.RemoveAt(i);
                     return;
                 }
             }
@@ -223,25 +223,25 @@ namespace GameModules
         /// </summary>
         public void RemoveAllTimer()
         {
-            timerList.Clear();
-            unscaledTimerList.Clear();
+            _timerList.Clear();
+            _unscaledTimerList.Clear();
         }
 
         private TimerInfo GetTimer(int timerId)
         {
-            for (int i = 0, len = timerList.Count; i < len; i++)
+            for (int i = 0, len = _timerList.Count; i < len; i++)
             {
-                if (timerList[i].timerId == timerId)
+                if (_timerList[i].timerId == timerId)
                 {
-                    return timerList[i];
+                    return _timerList[i];
                 }
             }
 
-            for (int i = 0, len = unscaledTimerList.Count; i < len; i++)
+            for (int i = 0, len = _unscaledTimerList.Count; i < len; i++)
             {
-                if (unscaledTimerList[i].timerId == timerId)
+                if (_unscaledTimerList[i].timerId == timerId)
                 {
-                    return unscaledTimerList[i];
+                    return _unscaledTimerList[i];
                 }
             }
 
@@ -251,9 +251,9 @@ namespace GameModules
         private void LoopCallInBadFrame()
         {
             bool isLoopCall = false;
-            for (int i = 0, len = timerList.Count; i < len; i++)
+            for (int i = 0, len = _timerList.Count; i < len; i++)
             {
-                TimerInfo timerInfo = timerList[i];
+                TimerInfo timerInfo = _timerList[i];
                 if (timerInfo.isLoop && timerInfo.leftTime <= 0)
                 {
                     if (timerInfo.Handler != null)
@@ -278,9 +278,9 @@ namespace GameModules
         private void LoopCallUnscaledInBadFrame()
         {
             bool isLoopCall = false;
-            for (int i = 0, len = unscaledTimerList.Count; i < len; i++)
+            for (int i = 0, len = _unscaledTimerList.Count; i < len; i++)
             {
-                TimerInfo timerInfo = unscaledTimerList[i];
+                TimerInfo timerInfo = _unscaledTimerList[i];
                 if (timerInfo.isLoop && timerInfo.leftTime <= 0)
                 {
                     if (timerInfo.Handler != null)
@@ -305,9 +305,9 @@ namespace GameModules
         private void UpdateTimer(float elapseSeconds)
         {
             bool isLoopCall = false;
-            for (int i = 0, len = timerList.Count; i < len; i++)
+            for (int i = 0, len = _timerList.Count; i < len; i++)
             {
-                TimerInfo timerInfo = timerList[i];
+                TimerInfo timerInfo = _timerList[i];
 
                 if (!timerInfo.isRunning) continue;
                 timerInfo.leftTime -= elapseSeconds;
@@ -342,9 +342,9 @@ namespace GameModules
         private void UpdateUnscaledTimer(float realElapseSeconds)
         {
             bool isLoopCall = false;
-            for (int i = 0, len = unscaledTimerList.Count; i < len; i++)
+            for (int i = 0, len = _unscaledTimerList.Count; i < len; i++)
             {
-                TimerInfo timerInfo = unscaledTimerList[i];
+                TimerInfo timerInfo = _unscaledTimerList[i];
 
                 if (!timerInfo.isRunning) continue;
                 timerInfo.leftTime -= realElapseSeconds;

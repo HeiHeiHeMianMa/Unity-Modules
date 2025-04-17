@@ -9,15 +9,15 @@ namespace GameModules
 {
     public class UIViewBase : MonoBehaviour
     {
-        private UIViewController controller;
-        private Canvas canvas;
+        private UIViewController _controller;
+        private Canvas _canvas;
 
-        public UIViewController Controller => controller;
+        public UIViewController Controller => _controller;
 
         public virtual void OnInit(UIViewController controller)
         {
-            this.controller = controller;
-            canvas = gameObject.GetOrAddComponent<Canvas>();
+            this._controller = controller;
+            _canvas = gameObject.GetOrAddComponent<Canvas>();
             gameObject.GetOrAddComponent<CanvasScaler>();
             gameObject.GetOrAddComponent<GraphicRaycaster>();
         }
@@ -37,8 +37,8 @@ namespace GameModules
         /// </summary>
         public virtual void OnOpen(object userData)
         {
-            canvas.overrideSorting = true;
-            canvas.sortingOrder = controller.order;
+            _canvas.overrideSorting = true;
+            _canvas.sortingOrder = _controller.order;
 
             OnAddListener();
         }
@@ -70,7 +70,7 @@ namespace GameModules
         /// </summary>
         public virtual void OnCancel()
         {
-            GameModule.UI.Close(controller.uiType);
+            GameModule.UI.Close(_controller.uiType);
         }
 
         /// <summary>

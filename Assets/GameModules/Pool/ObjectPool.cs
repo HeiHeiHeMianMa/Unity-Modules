@@ -6,20 +6,20 @@ namespace GameModules
 {
     public class ObjectPool<T> : PoolBase where T : new()
     {
-        private int maxNUm;
-        private Stack<T> pool;
+        private int _maxNUm;
+        private Stack<T> _pool;
 
         public ObjectPool(int maxNUm = 10)
         {
-            this.maxNUm = maxNUm;
-            pool = new Stack<T>();
+            this._maxNUm = maxNUm;
+            _pool = new Stack<T>();
         }
 
         public T Get()
         {
-            if (pool.Count > 0)
+            if (_pool.Count > 0)
             {
-                return pool.Pop();
+                return _pool.Pop();
             }
             else
             {
@@ -30,20 +30,20 @@ namespace GameModules
         public void Release(T obj)
         {
             if (obj == null) return;
-            if (pool.Count > maxNUm)return;
+            if (_pool.Count > _maxNUm)return;
 
             if (obj is IObject interfac)
             {
                 interfac.OnRelease();
             }
 
-            pool.Push(obj);
+            _pool.Push(obj);
         }
 
         public void Dispose()
         {
-            pool?.Clear();
-            pool = null;
+            _pool?.Clear();
+            _pool = null;
         }
     }
     

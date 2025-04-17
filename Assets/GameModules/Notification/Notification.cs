@@ -6,13 +6,13 @@ namespace GameModules
 {
     public partial class Notification
     {
-        private int count;
-        private List<Notification> parents = new List<Notification>();
+        private int _count;
+        private List<Notification> _parents = new List<Notification>();
 
         public int Count
         {
-            get => count;
-            private set => ChangeCount(value - count);
+            get => _count;
+            private set => ChangeCount(value - _count);
         }
 
         public Type Typekey { get; }
@@ -22,19 +22,19 @@ namespace GameModules
         private Notification(Type typekey, Func<bool> checkNotify, params Notification[] parents)
         {
             Typekey = typekey;
-            count = 0;
-            this.checkNotify = checkNotify;
+            _count = 0;
+            this._checkNotify = checkNotify;
 
             foreach (var parent in parents)
             {
-                if (parent.checkNotify != null)
+                if (parent._checkNotify != null)
                 {
                     Debug.LogError($"{parent.Typekey} 为叶子节点，不能作为parent");
                     return;
                 }
             }
 
-            this.parents.AddRange(parents);
+            this._parents.AddRange(parents);
         }
 
         public void SetShowRed(bool isShowRed)
@@ -56,15 +56,15 @@ namespace GameModules
                 return;
             }
 
-            count += diff;
-            if (count <= 0)
+            _count += diff;
+            if (_count <= 0)
             {
-                count = 0;
+                _count = 0;
             }
 
-            if (null != parents)
+            if (null != _parents)
             {
-                foreach (var p in parents)
+                foreach (var p in _parents)
                 {
                     p.ChangeCount(diff);
                 }
