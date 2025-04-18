@@ -15,7 +15,7 @@ namespace GameModules
         {
             if (_instancePool == null)
             {
-                _instancePool = new ObjectPool<T>();
+                _instancePool = new ObjectPool<T>(20);
                 PublicPoolMgr.AllPool.Add(_instancePool);
             }
         }

@@ -647,7 +647,7 @@ GameObject:
   - component: {fileID: 777822012}
   - component: {fileID: 777822011}
   m_Layer: 0
-  m_Name: NotificationModules
+  m_Name: NotificationModule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -989,7 +989,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 777822011}
         m_TargetAssemblyTypeName: Notification_Test, Assembly-CSharp
-        m_MethodName: Refresh_A_1
+        m_MethodName: RefreshNotification
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1436,19 +1436,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1235067634}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 777822011}
-        m_TargetAssemblyTypeName: Notification_Test, Assembly-CSharp
-        m_MethodName: RefreshNotification
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1235067634
 MonoBehaviour:
   m_ObjectHideFlags: 0

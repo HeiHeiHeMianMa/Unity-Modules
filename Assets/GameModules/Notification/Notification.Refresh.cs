@@ -71,13 +71,13 @@ namespace GameModules
             {
                 if (IsBusy)
                 {
-                    //Debug.Log($"{Time.frameCount}帧  繁忙 当帧耗时 {watch.ElapsedMilliseconds} 等待下一帧");
+                    Debug.Log($"{Time.frameCount}帧  繁忙 当帧耗时 {_watch.ElapsedMilliseconds} 等待下一帧");
                     break;
                 }
                 
                 if (RefreshNotification(t))
                 {
-                    //Debug.Log($"{Time.frameCount}帧  执行{t} 当帧耗时 {watch.ElapsedMilliseconds}");
+                    Debug.Log($"{Time.frameCount}帧  执行{t} 当帧耗时 {_watch.ElapsedMilliseconds}");
                 }
                 
                 _lastRefresh = t;

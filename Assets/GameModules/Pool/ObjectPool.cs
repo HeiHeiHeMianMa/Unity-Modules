@@ -6,12 +6,12 @@ namespace GameModules
 {
     public class ObjectPool<T> : PoolBase where T : new()
     {
-        private int _maxNUm;
+        private int _maxNum;
         private Stack<T> _pool;
 
-        public ObjectPool(int maxNUm = 10)
+        public ObjectPool(int maxNum = 10)
         {
-            this._maxNUm = maxNUm;
+            this._maxNum = maxNum;
             _pool = new Stack<T>();
         }
 
@@ -30,7 +30,7 @@ namespace GameModules
         public void Release(T obj)
         {
             if (obj == null) return;
-            if (_pool.Count > _maxNUm)return;
+            if (_pool.Count >= _maxNum)return;
 
             if (obj is IObject interfac)
             {

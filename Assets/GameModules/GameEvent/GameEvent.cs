@@ -2,166 +2,86 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace GameModules
 {
     public static class GameEvent
     {
-        private static readonly Dictionary<GameEventID, Delegate> eventDic = new();
+        private static readonly Dictionary<GameEventID, List<Delegate>> eventDic = new();
 
+        
         #region 注册
-
-        public static void AddListener(this GameEventID eventID, Action registerFunc)
+        public static void AddListener(this GameEventID eventID, Action callback) => AddInternal(eventID, callback);
+        public static void AddListener<T>(this GameEventID eventID, Action<T> callback) => AddInternal(eventID, callback);
+        public static void AddListener<T1, T2>(this GameEventID eventID, Action<T1, T2> callback) => AddInternal(eventID, callback);
+        private static void AddInternal(GameEventID eventID, Delegate callback)
         {
-            if (eventDic.TryGetValue(eventID, out var del) && del != null)
+            if (!eventDic.TryGetValue(eventID, out var list))
             {
-                if (del is Action act)
-                {
-                    eventDic[eventID] = act + registerFunc;
-                }
-                else
-                {
-                    Debug.LogError($"{eventID} 事件参数不匹配");
-                }
+                list = new List<Delegate>();
+                eventDic[eventID] = list;
             }
-            else
-            {
-                eventDic[eventID] = registerFunc;
-            }
-        }
 
-        public static void AddListener<T>(this GameEventID eventID, Action<T> registerFunc)
-        {
-            if (eventDic.TryGetValue(eventID, out var del) && del != null)
-            {
-                if (del is Action<T> act)
-                {
-                    eventDic[eventID] = act + registerFunc;
-                }
-                else
-                {
-                    Debug.LogError($"{eventID} 事件参数不匹配");
-                }
-            }
-            else
-            {
-                eventDic[eventID] = registerFunc;
-            }
+            if (!list.Contains(callback))
+                list.Add(callback);
         }
-
-        public static void AddListener<T1, T2>(this GameEventID eventID, Action<T1, T2> registerFunc)
-        {
-            if (eventDic.TryGetValue(eventID, out var del) && del != null)
-            {
-                if (del is Action<T1, T2> act)
-                {
-                    eventDic[eventID] = act + registerFunc;
-                }
-                else
-                {
-                    Debug.LogError($"{eventID} 事件参数不匹配");
-                }
-            }
-            else
-            {
-                eventDic[eventID] = registerFunc;
-            }
-        }
-
         #endregion
 
         #region 移除
 
-        public static void RemoveListener(this GameEventID eventID, Action registerFunc)
+        public static void RemoveListener(this GameEventID eventID, Action callback) => RemoveInternal(eventID, callback);
+        public static void RemoveListener<T>(this GameEventID eventID, Action<T> callback) => RemoveInternal(eventID, callback);
+        public static void RemoveListener<T1, T2>(this GameEventID eventID, Action<T1, T2> callback) => RemoveInternal(eventID, callback);
+        private static void RemoveInternal(GameEventID eventID, Delegate callback)
         {
-            if (eventDic.TryGetValue(eventID, out var del) && del != null)
+            if (eventDic.TryGetValue(eventID, out var list))
             {
-                if (del is Action act)
-                {
-                    eventDic[eventID] = act - registerFunc;
-                }
-                else
-                {
-                    Debug.LogError($"{eventID} 事件参数不匹配");
-                }
+                list.Remove(callback);
+                if (list.Count == 0)
+                    eventDic.Remove(eventID);
             }
         }
-
-        public static void RemoveListener<T>(this GameEventID eventID, Action<T> registerFunc)
-        {
-            if (eventDic.TryGetValue(eventID, out var del) && del != null)
-            {
-                if (del is Action<T> act)
-                {
-                    eventDic[eventID] = act - registerFunc;
-                }
-                else
-                {
-                    Debug.LogError($"{eventID} 事件参数不匹配");
-                }
-            }
-        }
-
-        public static void RemoveListener<T1, T2>(this GameEventID eventID, Action<T1, T2> registerFunc)
-        {
-            if (eventDic.TryGetValue(eventID, out var del) && del != null)
-            {
-                if (del is Action<T1, T2> act)
-                {
-                    eventDic[eventID] = act - registerFunc;
-                }
-                else
-                {
-                    Debug.LogError($"{eventID} 事件参数不匹配");
-                }
-            }
-        }
-
         #endregion
 
-        #region 发送
+        #region 分发
 
-        public static void Dispatch(this GameEventID evenID)
+        public static void Dispatch(this GameEventID eventID)
         {
-            if (eventDic.TryGetValue(evenID, out var del) && del != null)
+            if (eventDic.TryGetValue(eventID, out var list))
             {
-                if (del is Action act)
+                foreach (var cb in list)
                 {
-                    act?.Invoke();
-                }
-                else
-                {
-                    Debug.LogError($"{evenID} 事件参数不匹配");
+                    if (cb is Action action)
+                        action.Invoke();
+                    else
+                        Debug.LogError($"事件参数类型不匹配 {eventID}, 回调={cb.Method.DeclaringType}.{cb.Method.Name}");
                 }
             }
         }
 
-        public static void Dispatch<T>(this GameEventID evenID, T param1)
+        public static void Dispatch<T>(this GameEventID eventID, T param1)
         {
-            if (eventDic.TryGetValue(evenID, out var del) && del != null)
+            if (eventDic.TryGetValue(eventID, out var list))
             {
-                if (del is Action<T> act)
+                foreach (var cb in list)
                 {
-                    act?.Invoke(param1);
-                }
-                else
-                {
-                    Debug.LogError($"{evenID} 事件参数不匹配 param1:{param1}");
+                    if (cb is Action<T> action)
+                        action.Invoke(param1);
+                    else
+                        Debug.LogError($"事件参数类型不匹配: {eventID}, 回调={cb.Method.DeclaringType}.{cb.Method.Name}");
                 }
             }
         }
 
-        public static void Dispatch<T1, T2>(this GameEventID evenID, T1 param1, T2 param2)
+        public static void Dispatch<T1, T2>(this GameEventID eventID, T1 param1, T2 param2)
         {
-            if (eventDic.TryGetValue(evenID, out var del) && del != null)
+            if (eventDic.TryGetValue(eventID, out var list))
             {
-                if (del is Action<T1, T2> act)
+                foreach (var cb in list)
                 {
-                    act?.Invoke(param1, param2);
-                }
-                else
-                {
-                    Debug.LogError($"{evenID} 事件参数不匹配 param1:{param1} param2:{param2}");
+                    if (cb is Action<T1, T2> action)
+                        action.Invoke(param1, param2);
+                    else
+                        Debug.LogError($"事件参数类型不匹配 {eventID}, 回调={cb.Method.DeclaringType}.{cb.Method.Name}");
                 }
             }
         }
