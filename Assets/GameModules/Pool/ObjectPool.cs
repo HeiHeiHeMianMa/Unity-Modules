@@ -31,11 +31,13 @@ namespace GameModules
         {
             if (obj == null) return;
             if (_pool.Count >= _maxNum)return;
+            if (_pool.Contains(obj)) return;
 
             if (obj is IObject interfac)
             {
                 interfac.OnRelease();
             }
+            
 
             _pool.Push(obj);
         }
