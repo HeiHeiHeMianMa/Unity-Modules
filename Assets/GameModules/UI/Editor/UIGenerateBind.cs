@@ -4,6 +4,7 @@ using System.Text;
 using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
+using GameModules;
 using TMPro;
 using UnityEngine;
 using UnityEditor;
@@ -36,6 +37,7 @@ public class UIGenerateBind
     private static List<BindInfo> bindInfoList = new List<BindInfo>();
     private static Dictionary<string, Type> nameDic = new Dictionary<string, Type>();
     private static string waitCompileKey = "CreateUIScript-WaitCompiling";
+    private static string generateNamespace = "GameModules";
     private static string generateCSPath => $"{Application.dataPath}/Demo/UI/Generated/{{0}}.Bind.cs";
     
     
@@ -160,7 +162,7 @@ using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace GameModule.UI
+namespace @namespace
 {
     public partial class @ClassName : UIViewBase
     {   
@@ -168,6 +170,7 @@ namespace GameModule.UI
     }
 }
 ";
+        template = template.Replace("@namespace", generateNamespace);
         template = template.Replace("@ClassName", className);
         var body1 = new StringBuilder();
         var fields = new StringBuilder();
@@ -240,8 +243,8 @@ namespace GameModule.UI
         if (targetComponent == null)
         {
             //var type = Type.GetType($"{componentName}, Assembly-CSharp");
-            //var type = GameModule.UI.UIConfig.GetType(componentName);
-            var type = GetCSType(componentName);
+            var type = UIConfig.GetType($"{generateNamespace}.{componentName}");
+            //var type = GetCSType(componentName);
             if (type == null || !typeof(Component).IsAssignableFrom(type))
             {
                 Debug.LogError($"无法找到或添加组件 {componentName}！");
@@ -303,6 +306,11 @@ namespace GameModule.UI
             return null;
         }
         var type = monoScript.GetClass();
+        if (type == null)
+        {
+            Debug.LogError($"type == null");
+            return null;
+        }
         return type;
     }
 }
