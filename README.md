@@ -3,6 +3,7 @@
 
 ## UI模块
 一个功能完整的ui框架，实现了界面开关、覆盖与被覆盖、分层、栈管理、绑定代码自动生成并绑定等
+
 <img src="ReadmeImg/Bind.gif" width="600"/><br>
 <sub>自动生成并绑定演示</sub>
 
@@ -78,3 +79,15 @@ var dict = DictionaryPool<string, float>.Get();
 // 回收（自动清空数据）
 DictionaryPool<string, float>.Release(dict);
 ```
+
+
+
+## 计时器模块
+
+支持单次计时、循环计时、配置是否受TimeScal影响、传递参数
+
+
+
+## 状态机模块
+
+一个状态机模块
